@@ -2,7 +2,7 @@
   "string": [
     {
       "name": "module_desc",
-      "value": "module 描述"
+      "value": "module description"
     },
     {
       "name": "EntryAbility_desc",
@@ -10,10 +10,6 @@
     },
     {
       "name": "EntryAbility_label",
-      "value": "label"
-    },
-    {
-      "name": "button",
       "value": "label"
     }
   ]
