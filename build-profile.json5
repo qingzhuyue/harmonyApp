@@ -1,6 +1,20 @@
 {
   "app": {
-    "signingConfigs": [],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "/Users/duxin/.ohos/config/default_qingzhuyue_q6Fd3WrYPJ5NrYUYIfGfJBUjZYWwwvNCpcG2oOXiWaQ=.cer",
+          "storePassword": "0000001BADFC3A64A72284885542047438B6361CA29FF0561D66CA239A2BCC8836A8C4640147D4AC4BC817",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001BE25D3D42D9A5B675396AA8F51FEC1AD61C494963E778BC7CB0CA8D8FF0A96B3140B3DC1651D03E",
+          "profile": "/Users/duxin/.ohos/config/default_qingzhuyue_q6Fd3WrYPJ5NrYUYIfGfJBUjZYWwwvNCpcG2oOXiWaQ=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "/Users/duxin/.ohos/config/default_qingzhuyue_q6Fd3WrYPJ5NrYUYIfGfJBUjZYWwwvNCpcG2oOXiWaQ=.p12"
+        }
+      }
+    ],
     "products": [
       {
         "name": "default",

@@ -1,10 +1,11 @@
 import { router } from '@kit.ArkUI';
-import { BusinessError } from '@kit.BasicServicesKit';
+import { MockKit, when, MockSetup } from '@ohos/hamock';
 
 @Entry
+@Preview
 @Component
 struct Index {
-  @State message: string = 'Hello 鸿蒙！';
+  @State message: string = 'Hello 鸿蒙';
 
   build() {
     RelativeContainer() {
@@ -20,9 +21,13 @@ struct Index {
             })
           // 添加按钮，以响应用户点击
           Button() {
-            Text('下一页')
-              .fontSize(30)
-              .fontWeight(FontWeight.Bold)
+            Text('下一页！')
+              .fontSize(20)
+              .fontColor(Color.White)
+              .padding({
+                top:10,
+                bottom:10
+              })
           }
           .type(ButtonType.Capsule)
           .margin({
