@@ -1,5 +1,5 @@
 import { router } from '@kit.ArkUI';
-import { MockKit, when, MockSetup } from '@ohos/hamock';
+import CommonConstants from "../common/constants/Contants"
 
 @Entry
 @Preview
@@ -21,12 +21,12 @@ struct Index {
             })
           // 添加按钮，以响应用户点击
           Button() {
-            Text('下一页！')
+            Text(CommonConstants.TODO_TITLE)
               .fontSize(20)
               .fontColor(Color.White)
               .padding({
-                top:10,
-                bottom:10
+                top: 10,
+                bottom: 10
               })
           }
           .type(ButtonType.Capsule)
@@ -36,10 +36,10 @@ struct Index {
           .backgroundColor('#0D9FFB')
           .width('40%')
           .height('5%')
-          .onClick(()=>{
-            router.pushUrl({url:"pages/Second"}).then(()=>{
+          .onClick(() => {
+            router.pushUrl({ url: CommonConstants.TODO_ROUTER }).then(() => {
               console.log("开始跳转其他页面")
-            }).catch(()=>{
+            }).catch(() => {
               console.log("跳转路由报错")
             })
           })
