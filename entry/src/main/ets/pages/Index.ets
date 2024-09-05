@@ -1,6 +1,13 @@
 import { router } from '@kit.ArkUI';
 import CommonConstants from "../common/constants/Contants"
 
+class routerParams{
+  src:string
+  constructor(str:string) {
+    this.src = str;
+  }
+}
+
 @Entry
 @Preview
 @Component
@@ -37,7 +44,10 @@ struct Index {
           .width('40%')
           .height('5%')
           .onClick(() => {
-            router.pushUrl({ url: CommonConstants.TODO_ROUTER }).then(() => {
+            router.pushUrl({
+              url:"pages/Second",
+              params: new routerParams("这是传递的参数")
+            }).then(() => {
               console.log("开始跳转其他页面")
             }).catch(() => {
               console.log("跳转路由报错")

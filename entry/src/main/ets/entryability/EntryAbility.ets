@@ -4,7 +4,9 @@ import { window } from '@kit.ArkUI';
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
-    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
+    hilog.info(0x0000, 'testTagonCreate', '%{public}s', 'Ability onCreate');
+    let content = this.context;
+    hilog.info(0xfff, 'content上下文', '%{public}s', content)
   }
 
   onDestroy(): void {
@@ -15,6 +17,7 @@ export default class EntryAbility extends UIAbility {
     // Main window is created, set main page for this ability
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
 
+    // 设置应用要加载的页面
     windowStage.loadContent('pages/Index', (err) => {
       if (err.code) {
         hilog.error(0x0000, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err) ?? '');
