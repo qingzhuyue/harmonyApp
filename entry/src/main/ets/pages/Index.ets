@@ -1,9 +1,12 @@
 import { router } from '@kit.ArkUI';
+import { webview } from "@kit.ArkWeb"
+import { BusinessError } from '@kit.BasicServicesKit';
 import CommonConstants from "../common/constants/Contants"
 
-class routerParams{
-  src:string
-  constructor(str:string) {
+class routerParams {
+  src: string
+
+  constructor(str: string) {
     this.src = str;
   }
 }
@@ -13,50 +16,24 @@ class routerParams{
 @Component
 struct Index {
   @State message: string = 'Hello 鸿蒙';
+  controller: webview.WebviewController = new webview.WebviewController();
 
   build() {
-    RelativeContainer() {
-      Row() {
-        Column() {
-          Text(this.message)
-            .id('HelloWorld')
-            .fontSize(40)
-            .fontWeight(FontWeight.Bold)
-            .alignRules({
-              center: { anchor: '__container__', align: VerticalAlign.Center },
-              middle: { anchor: '__container__', align: HorizontalAlign.Center }
-            })
-          // 添加按钮，以响应用户点击
-          Button() {
-            Text(CommonConstants.TODO_TITLE)
-              .fontSize(20)
-              .fontColor(Color.White)
-              .padding({
-                top: 10,
-                bottom: 10
-              })
-          }
-          .type(ButtonType.Capsule)
-          .margin({
-            top: 20
-          })
-          .backgroundColor('#0D9FFB')
-          .width('40%')
-          .height('5%')
-          .onClick(() => {
-            router.pushUrl({
-              url:"pages/Second",
-              params: new routerParams("这是传递的参数")
-            }).then(() => {
-              console.log("开始跳转其他页面")
-            }).catch(() => {
-              console.log("跳转路由报错")
-            })
-          })
-        }
-        .width('100%')
+    Column() {
+      Row({ space: 5 }) {
+        Row()
+          .width("30%")
+          .height(50)
+          .backgroundColor("red")
+        Row()
+          .width("30%")
+          .height(50)
+          .backgroundColor("blue")
       }
+      .width("90%")
       .height('100%')
+      .border({ width: 1 })
+
     }
     .height('100%')
     .width('100%')
