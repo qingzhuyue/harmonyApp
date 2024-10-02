@@ -15,25 +15,25 @@ class routerParams {
 @Preview
 @Component
 struct Index {
-  @State message: string = 'Hello 鸿蒙';
-  controller: webview.WebviewController = new webview.WebviewController();
+  private bgColors: Color[] =
+    [Color.Red, Color.Orange, Color.Black, Color.Yellow, Color.Green, Color.Pink, Color.Gray, Color.Blue, Color.Brown];
 
   build() {
     Column() {
-      Row({ space: 5 }) {
-        Row()
-          .width("30%")
-          .height(50)
-          .backgroundColor("red")
-        Row()
-          .width("30%")
-          .height(50)
-          .backgroundColor("blue")
+      GridRow({
+        columns: 5, // 设置布局列数
+        gutter: { x: 5, y: 20 }, // 栅格布局的间距
+        breakpoints: {
+          value: ["400vp", "600vp", "800vp"],
+          reference: BreakpointsReference.WindowSize
+        },
+      }) {
+        ForEach(this.bgColors, (color:string) => {
+          GridCol({ span: { xs: 1,sm:2,md:3,lg:4 } }){
+            Row().width("100%").height("80vp")
+          }.backgroundColor(color).borderWidth(2)
+        })
       }
-      .width("90%")
-      .height('100%')
-      .border({ width: 1 })
-
     }
     .height('100%')
     .width('100%')

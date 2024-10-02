@@ -1,10 +1,33 @@
 import CommonConstants from "../common/constants/Contants";
 import { TODO_DATA } from "../common/data/SouresData"
 
+interface ItemType {
+  title: string;
+  projects: string[]
+}
+
 @Entry
 @Component
 struct ToDoList {
   @State title: string = '';
+  private timetableListItemGroup: ItemType[] = [
+    {
+      title: "星期一",
+      projects: ["语文", "数学"]
+    }, {
+    title: "星期二",
+    projects: ["语文", "数学"]
+  }, {
+    title: "星期三",
+    projects: ["语文", "数学"]
+  }, {
+    title: "星期四",
+    projects: ["语文", "数学"]
+  }, {
+    title: "星期五",
+    projects: ["语文", "数学"]
+  },
+  ];
 
   onPageShow() {
     console.info('Index onPageShow');
@@ -30,27 +53,35 @@ struct ToDoList {
   aboutToDisappear() {
     console.info('MyComponent aboutToDisappear');
   }
+
   build() {
     Column() {
-      Text(CommonConstants.TODO_TITLE)
-        .id('ToDoListHelloWorld')
-        .fontSize(30)
-        .fontWeight(FontWeight.Bold)
-        .alignRules({
-          center: { anchor: '__container__', align: VerticalAlign.Center },
-          middle: { anchor: '__container__', align: HorizontalAlign.Center }
+      List({ space: 2 }) {
+        ForEach(this.timetableListItemGroup, (item: ItemType) => {
+          ListItemGroup() {
+            ForEach(item.projects, (project: string) => {
+              ListItem() {
+                Text(project)
+                  .width("100%")
+                  .height("30")
+                  .fontSize(20)
+                  .textAlign(TextAlign.Center)
+              }
+            }, (item:string) => item)
+          }
+          .borderRadius(10)
+          .divider({strokeWidth:1,color:0xDCDCDC})
+          .margin({
+            bottom:10
+          })
+          .border({width:1,color:"blue"})
         })
-        .margin({
-          bottom: 20
-        })
-
-      ForEach(TODO_DATA, (item: string) => {
-        ToDoItem({ contents: item })
-      }, (item: string) => item)
+      }
     }
     .margin({
       left: 10,
-      top: 10
+      top: 10,
+      right:10
     })
   }
 }
@@ -70,7 +101,7 @@ struct ToDoItem {
         .width(50)
         .height(50)
         .margin({
-          right:50
+          right: 50
         })
       Text(this.contents)
         .fontSize(20)
@@ -79,7 +110,7 @@ struct ToDoItem {
         })
     }
     .margin({
-      bottom:30
+      bottom: 30
     })
   }
 }
