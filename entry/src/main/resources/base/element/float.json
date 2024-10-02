@@ -1,0 +1,16 @@
+{
+  "float": [
+    {
+      "name": "small_text_size",
+      "value": "12fp"
+    },
+    {
+      "name": "forgot_padding_left",
+      "value": "12vp"
+    },
+    {
+      "name": "forgot_padding_right",
+      "value": "12vp"
+    }
+  ]
+}

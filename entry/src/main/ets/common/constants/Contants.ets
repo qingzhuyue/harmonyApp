@@ -7,18 +7,27 @@ export default class CommonConstants {
   static readonly TODO_TITLE: string = '待办';
   // 待办页面的路由
   static readonly TODO_ROUTER: string = "pages/ToDoList";
-
-  static readonly BASE_URL = "http://192.168.0.110:3000";
-
-
+  static readonly BASE_URL: string = "http://192.168.0.110:3000";
   // 页面路由
   /**
    * Main page url.
    */
   static readonly MAIN_PAGE_URL: string = 'pages/MainPage';
-
   /**
    * Login page url.
    */
   static readonly LOGIN_PAGE_URL: string = 'pages/Login';
+  // 断点 sm
+  static readonly SM: string = 'sm';
+  static readonly MD: string = 'MD';
+  static readonly LG: string = 'LG';
+  static readonly WIDTH_CONDITION_SM: string = '(320vp<=width<520vp)';
+  static readonly WIDTH_CONDITION_MD: string = '(520vp<=width<840vp)';
+  static readonly WIDTH_CONDITION_LG: string = '(840vp<=width)';
+
+  /**
+   * toast 默认延迟时间：3000
+   */
+
+  static readonly TOAST_DURATION: number = 3000;
 }

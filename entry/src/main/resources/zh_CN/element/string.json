@@ -11,6 +11,18 @@
     {
       "name": "EntryAbility_label",
       "value": "青竹悦"
+    },
+    {
+      "name": "message_login",
+      "value": "短信验证码登录"
+    },
+    {
+      "name": "forgot_password",
+      "value": "忘记密码"
+    },
+    {
+      "name": "login",
+      "value": "登 录"
     }
   ]
 }

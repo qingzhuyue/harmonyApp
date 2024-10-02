@@ -11,6 +11,18 @@
     {
       "name": "EntryAbility_label",
       "value": "青竹悦"
+    },
+    {
+      "name": "message_login",
+      "value": "SMS verification code login"
+    },
+    {
+      "name": "forgot_password",
+      "value": "Forgot Password"
+    },
+    {
+      "name": "login",
+      "value": "login"
     }
   ]
 }
