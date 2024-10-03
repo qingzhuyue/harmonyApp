@@ -11,7 +11,7 @@ class Logger {
    * @param Prefix Identifies the log tag.
    * @param domain Domain Indicates the service domain, which is a hexadecimal integer ranging from 0x0 to 0xFFFFF.
    */
-  constructor(prefix: string = 'MyApp', domain: number = 0xFF00) {
+  constructor(prefix: string = 'MyApp', domain: number = 0x4830FF) {
     this.prefix = prefix;
     this.domain = domain;
   }

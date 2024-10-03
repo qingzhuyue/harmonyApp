@@ -6,9 +6,9 @@
         "type": "HarmonyOS",
         "material": {
           "certpath": "/Users/duxin/.ohos/config/default_qingzhuyue_q6Fd3WrYPJ5NrYUYIfGfJBUjZYWwwvNCpcG2oOXiWaQ=.cer",
-          "storePassword": "0000001BADFC3A64A72284885542047438B6361CA29FF0561D66CA239A2BCC8836A8C4640147D4AC4BC817",
+          "storePassword": "0000001B8E53953BBE7D2B5F47BB696795D0E30C1310AF0E7A290DE5D9145623E2DBECA998B0BC0DDB4B75",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001BE25D3D42D9A5B675396AA8F51FEC1AD61C494963E778BC7CB0CA8D8FF0A96B3140B3DC1651D03E",
+          "keyPassword": "0000001B131F91AA3B83910F174AB7F3A203A0EA52255EC8F099813DD98DA22F1DFF537AF8070DA4E29F1A",
           "profile": "/Users/duxin/.ohos/config/default_qingzhuyue_q6Fd3WrYPJ5NrYUYIfGfJBUjZYWwwvNCpcG2oOXiWaQ=.p7b",
           "signAlg": "SHA256withECDSA",
           "storeFile": "/Users/duxin/.ohos/config/default_qingzhuyue_q6Fd3WrYPJ5NrYUYIfGfJBUjZYWwwvNCpcG2oOXiWaQ=.p12"

@@ -30,4 +30,7 @@ export default class CommonConstants {
    */
 
   static readonly TOAST_DURATION: number = 3000;
+
+  static readonly READ_TIMEOUT:number = 5000;
+  static readonly CONNECT_TIMEOUT:number = 5000;
 }

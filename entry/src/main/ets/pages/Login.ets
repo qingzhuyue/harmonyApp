@@ -2,7 +2,11 @@ import { http } from '@kit.NetworkKit';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { image } from '@kit.ImageKit';
 import StyleConstants from "../common/constants/StyleConstants";
-import CommonUtils from "../common/utils/CommonUtils"
+import CommonUtils from "../common/utils/CommonUtils";
+import Logger from "../common/utils/Logger";
+import { httpGet, httpPost } from "../common/utils/HttpUtils";
+import CommonConstant from "../common/constants/Contants";
+import axios, { AxiosResponse } from '@ohos/axios';
 
 @Entry
 @Component
@@ -15,16 +19,17 @@ struct Login {
     this.requestImageUrl();
   }
 
+  // 请求图片
   requestImageUrl() {
     http.createHttp().request(
       this.imgUrl,
       { expectDataType: http.HttpDataType.ARRAY_BUFFER }
     ).then(async (res) => {
-      console.info('res', JSON.stringify(res))
+      // console.info('res', JSON.stringify(res))
       // 将图片资源转为像素图（PixelMap）
       this.pixelMap = await image.createImageSource(res.result as ArrayBuffer).createPixelMap()
     }).catch(() => {
-      console.info('catch')
+      // console.info('catch')
     })
   }
 
@@ -88,6 +93,60 @@ struct LoginBottom {
   @State account: string = "";
   @State passwrod: string = "";
   @State checkStatus: boolean = false;
+
+  async onLoginRequest() {
+    if (this.checkStatus) {
+      // CommonUtils.showToastContent("登录")
+      Logger.info("登录")
+      axios({
+        url: CommonConstant.BASE_URL + "/api/login",
+        method: 'post',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: JSON.stringify({ username: "admin12", password: "123456" }),
+        readTimeout: 1000,
+      })
+        .then((response: AxiosResponse<string>) => {
+          Logger.info("登录接口响应", JSON.stringify(response))
+        })
+        .catch((error: Error) => {
+          console.info("登录接口报错", JSON.stringify(error));
+        });
+
+      // const req = http.createHttp()
+      // req.request(CommonConstant.BASE_URL + `/api/hm/login`, {
+      //   method: http.RequestMethod.POST,
+      //   header: [
+      //     { 'Content-Type': 'application/json' }
+      //   ],
+      //   extraData: { username: "admin12", password: "123456" }
+      // })
+      //   .then((data: http.HttpResponse) => {
+      //     // 成功
+      //     Logger.info("登录信息", JSON.stringify(data))
+      //   })
+      //   .catch((err: BusinessError) => {
+      //     // 失败
+      //     console.info(err.message)
+      //   })
+      //   .finally(() => {
+      //     // 不管成功失败都销毁请求对象
+      //     req.destroy()
+      //   })
+
+      return
+      try {
+        let result =
+          await httpPost(CommonConstant.BASE_URL + `/api/login`, { username: "admin12", password: "123456" });
+        Logger.info("登录接口响应", JSON.stringify(result))
+      } catch (error) {
+        Logger.info("登录接口报错", JSON.stringify(error))
+      }
+    } else {
+      CommonUtils.showToastContent("请阅读并勾选同意相关协议")
+    }
+  }
 
   build() {
     Column() {
@@ -158,7 +217,7 @@ struct LoginBottom {
         }
         .justifyContent(FlexAlign.SpaceBetween)
         .margin({
-          top: '12vp'
+          top: '24vp'
         })
         .padding({
           left: $r('app.float.forgot_padding_left'),
@@ -172,7 +231,10 @@ struct LoginBottom {
         .id("loginButtonId")
         .width(StyleConstants.WIDTH_80)
         .margin({
-          top: "20vp"
+          top: "12vp"
+        })
+        .onClick(() => {
+          this.onLoginRequest()
         })
 
 
@@ -211,7 +273,7 @@ struct LoginBottom {
       }
       .alignItems(VerticalAlign.Center)
       .margin({
-        top:"12vp"
+        top: "12vp"
       })
     }
   }
