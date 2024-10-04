@@ -1,12 +1,13 @@
 import { http } from '@kit.NetworkKit';
-import { BusinessError } from '@kit.BasicServicesKit';
 import { image } from '@kit.ImageKit';
 import StyleConstants from "../common/constants/StyleConstants";
 import CommonUtils from "../common/utils/CommonUtils";
 import Logger from "../common/utils/Logger";
-import { httpGet, httpPost } from "../common/utils/HttpUtils";
+import { httpGet, httpPost, HttpService } from "../common/utils/HttpUtils";
 import CommonConstant from "../common/constants/Contants";
 import axios, { AxiosResponse } from '@ohos/axios';
+import { LoginResponseType } from "../common/utils/Type"
+
 
 @Entry
 @Component
@@ -98,48 +99,32 @@ struct LoginBottom {
     if (this.checkStatus) {
       // CommonUtils.showToastContent("登录")
       Logger.info("登录")
-      axios({
-        url: CommonConstant.BASE_URL + "/api/login",
-        method: 'post',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        data: JSON.stringify({ username: "admin12", password: "123456" }),
-        readTimeout: 1000,
-      })
-        .then((response: AxiosResponse<string>) => {
-          Logger.info("登录接口响应", JSON.stringify(response))
-        })
-        .catch((error: Error) => {
-          console.info("登录接口报错", JSON.stringify(error));
-        });
-
-      // const req = http.createHttp()
-      // req.request(CommonConstant.BASE_URL + `/api/hm/login`, {
-      //   method: http.RequestMethod.POST,
-      //   header: [
-      //     { 'Content-Type': 'application/json' }
-      //   ],
-      //   extraData: { username: "admin12", password: "123456" }
+      const httpService = HttpService.getInstance();
+      // axios({
+      //   url: CommonConstant.BASE_URL + "/api/login",
+      //   method: 'post',
+      //   headers: {
+      //     "Content-Type": "application/json"
+      //   },
+      //   data: JSON.stringify({ username: "admin12", password: "123456" }),
+      //   readTimeout: 1000,
       // })
-      //   .then((data: http.HttpResponse) => {
-      //     // 成功
-      //     Logger.info("登录信息", JSON.stringify(data))
+      //   .then((response: AxiosResponse<string>) => {
+      //     Logger.info("登录接口响应", JSON.stringify(response))
       //   })
-      //   .catch((err: BusinessError) => {
-      //     // 失败
-      //     console.info(err.message)
-      //   })
-      //   .finally(() => {
-      //     // 不管成功失败都销毁请求对象
-      //     req.destroy()
-      //   })
+      //   .catch((error: Error) => {
+      //     console.info("登录接口报错", JSON.stringify(error));
+      //   });
 
-      return
       try {
         let result =
-          await httpPost(CommonConstant.BASE_URL + `/api/login`, { username: "admin12", password: "123456" });
+          await httpService.post(CommonConstant.BASE_URL + `/api/login`, { username: "admin12", password: "123456" }, {
+            'Content-Type': 'application/json'
+          })
+
         Logger.info("登录接口响应", JSON.stringify(result))
+        console.log("登录接口响应222", result)
+
       } catch (error) {
         Logger.info("登录接口报错", JSON.stringify(error))
       }
