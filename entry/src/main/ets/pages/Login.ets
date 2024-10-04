@@ -3,10 +3,10 @@ import { image } from '@kit.ImageKit';
 import StyleConstants from "../common/constants/StyleConstants";
 import CommonUtils from "../common/utils/CommonUtils";
 import Logger from "../common/utils/Logger";
-import { httpGet, httpPost, HttpService } from "../common/utils/HttpUtils";
 import CommonConstant from "../common/constants/Contants";
 import axios, { AxiosResponse } from '@ohos/axios';
-import { LoginResponseType } from "../common/utils/Type"
+import { loginData } from "./modle/Login";
+import { ServerResponse } from "./modle/LoginResult"
 
 
 @Entry
@@ -97,37 +97,50 @@ struct LoginBottom {
 
   async onLoginRequest() {
     if (this.checkStatus) {
-      // CommonUtils.showToastContent("登录")
-      Logger.info("登录")
-      const httpService = HttpService.getInstance();
-      // axios({
-      //   url: CommonConstant.BASE_URL + "/api/login",
-      //   method: 'post',
-      //   headers: {
-      //     "Content-Type": "application/json"
-      //   },
-      //   data: JSON.stringify({ username: "admin12", password: "123456" }),
-      //   readTimeout: 1000,
-      // })
-      //   .then((response: AxiosResponse<string>) => {
-      //     Logger.info("登录接口响应", JSON.stringify(response))
-      //   })
-      //   .catch((error: Error) => {
-      //     console.info("登录接口报错", JSON.stringify(error));
-      //   });
+      axios({
+        url: CommonConstant.BASE_URL + "/api/login",
+        method: 'post',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: JSON.stringify({ username: "admin12", password: "123456" }),
+        readTimeout: 1000,
+      })
+        .then((response: AxiosResponse<string>) => {
+          Logger.info("登录接口响应", JSON.stringify(response))
+        })
+        .catch((error: Error) => {
+          console.info("登录接口报错", JSON.stringify(error));
+        });
+    } else {
+      CommonUtils.showToastContent("请阅读并勾选同意相关协议")
+    }
+  }
 
-      try {
-        let result =
-          await httpService.post(CommonConstant.BASE_URL + `/api/login`, { username: "admin12", password: "123456" }, {
-            'Content-Type': 'application/json'
-          })
-
-        Logger.info("登录接口响应", JSON.stringify(result))
-        console.log("登录接口响应222", result)
-
-      } catch (error) {
-        Logger.info("登录接口报错", JSON.stringify(error))
-      }
+  private userLogin(userInfo: loginData) {
+    if (this.checkStatus) {
+      axios({
+        url: CommonConstant.BASE_URL + "/api/login",
+        method: 'post',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: JSON.stringify(userInfo),
+        readTimeout: 1000,
+      })
+        .then((response: AxiosResponse<string>) => {
+          Logger.info("登录接口响应", JSON.stringify(response))
+          let responseObject: ServerResponse = JSON.parse(JSON.stringify(response.data));
+          Logger.info("登录======", JSON.stringify(responseObject))
+          if (responseObject.code === 200) {
+            CommonUtils.showToastContent("用户登录成功")
+          } else {
+            CommonUtils.showToastContent(responseObject.errorMsg)
+          }
+        })
+        .catch((error: Error) => {
+          console.info("登录接口报错", JSON.stringify(error));
+        });
     } else {
       CommonUtils.showToastContent("请阅读并勾选同意相关协议")
     }
@@ -219,7 +232,7 @@ struct LoginBottom {
           top: "12vp"
         })
         .onClick(() => {
-          this.onLoginRequest()
+          this.userLogin({ username: "admin12", password: "123456" })
         })
 
 
@@ -270,3 +283,4 @@ function blueTextStyle() {
   .fontSize($r('app.float.small_text_size'))
   .fontWeight(FontWeight.Medium)
 }
+

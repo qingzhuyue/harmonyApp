@@ -1,7 +1,6 @@
-import { router } from '@kit.ArkUI';
 import { promptAction } from '@kit.ArkUI';
 import CommonConstants from '../constants/Contants';
-import Logger from './Logger';
+
 
 /**
  * 公共方法
