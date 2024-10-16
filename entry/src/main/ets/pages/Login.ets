@@ -1,12 +1,13 @@
 import { http } from '@kit.NetworkKit';
 import { image } from '@kit.ImageKit';
+import { router } from "@kit.ArkUI";
 import StyleConstants from "../common/constants/StyleConstants";
 import CommonUtils from "../common/utils/CommonUtils";
-import Logger from "../common/utils/Logger";
 import CommonConstant from "../common/constants/Contants";
-import axios, { AxiosResponse } from '@ohos/axios';
-import { loginData } from "./modle/Login";
-import { ServerResponse } from "./modle/LoginResult"
+import  { AxiosResponse } from '@ohos/axios';
+import { loginData } from "../modle/Login";
+import { ServerResponse } from "../modle/LoginResult";
+import axiosInstance from "../common/utils/Request"
 
 
 @Entry
@@ -66,7 +67,7 @@ struct Login {
               })
               .width('100%')
               .margin({ bottom: "38vp" })
-            Text("鸿蒙应用")
+            Text("农品行")
               .fontSize(38)
               .fontWeight(FontWeight.Bold)
               .fontColor('#4a9deb')
@@ -91,58 +92,43 @@ struct Login {
 @Component
 struct LoginBottom {
   controller: TextInputController = new TextInputController()
-  @State account: string = "";
-  @State passwrod: string = "";
+  @State account: string = '';
+  @State password: string = "";
   @State checkStatus: boolean = false;
 
-  async onLoginRequest() {
+  private userLogin(userInfo: loginData) {
     if (this.checkStatus) {
-      axios({
-        url: CommonConstant.BASE_URL + "/api/login",
-        method: 'post',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        data: JSON.stringify({ username: "admin12", password: "123456" }),
-        readTimeout: 1000,
+      axiosInstance.post(CommonConstant.LOGIN_PATH,userInfo)
+        .then((response:AxiosResponse)=>{
+          console.error("0000000",JSON.stringify(response))
+          let responseObject: ServerResponse = JSON.parse(JSON.stringify(response.data));
+          if (responseObject.code === 200) {
+            router.replaceUrl({ url: "pages/Index" });
+            PersistentStorage.persistProp('token',responseObject?.data?.token)
+          } else {
+            CommonUtils.showToastContent(responseObject?.msg || "")
+          }
+        }).catch((err:Error)=>{
+        console.info("登录接口报错", JSON.stringify(err));
       })
-        .then((response: AxiosResponse<string>) => {
-          Logger.info("登录接口响应", JSON.stringify(response))
-        })
-        .catch((error: Error) => {
-          console.info("登录接口报错", JSON.stringify(error));
-        });
     } else {
       CommonUtils.showToastContent("请阅读并勾选同意相关协议")
     }
   }
 
-  private userLogin(userInfo: loginData) {
-    if (this.checkStatus) {
-      axios({
-        url: CommonConstant.BASE_URL + "/api/login",
-        method: 'post',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        data: JSON.stringify(userInfo),
-        readTimeout: 1000,
-      })
-        .then((response: AxiosResponse<string>) => {
-          Logger.info("登录接口响应", JSON.stringify(response))
-          let responseObject: ServerResponse = JSON.parse(JSON.stringify(response.data));
-          Logger.info("登录======", JSON.stringify(responseObject))
-          if (responseObject.code === 200) {
-            CommonUtils.showToastContent("用户登录成功")
-          } else {
-            CommonUtils.showToastContent(responseObject.errorMsg)
-          }
-        })
-        .catch((error: Error) => {
-          console.info("登录接口报错", JSON.stringify(error));
-        });
-    } else {
-      CommonUtils.showToastContent("请阅读并勾选同意相关协议")
+  private onLogin() {
+    if (!this.checkStatus) {
+      return CommonUtils.showToastContent(("登录前请先阅读协议哦！"));
+    }
+    let data: loginData = { username: this.account, password: this.password, phone: this.account };
+    const isCanLogin = CommonConstant.LOGIN_TEXT ===
+    CommonUtils.loginArkTS(this.account, this.password);
+    console.log("数据校验",
+      JSON.stringify(CommonUtils.loginArkTS(this.account, this.password)), CommonConstant.LOGIN_TEXT ===
+      CommonUtils.loginArkTS(this.account, this.password), isCanLogin);
+
+    if (isCanLogin) {
+      this.userLogin(data);
     }
   }
 
@@ -153,7 +139,7 @@ struct LoginBottom {
           .height(18)
           .width(18)
 
-        TextInput({ text: this.account, placeholder: '输入账号', controller: this.controller })
+        TextInput({ text: this.account, placeholder: '手机号', controller: this.controller })
           .placeholderFont({ size: 16, weight: 400 })
           .width(180)
           .height(35)
@@ -178,19 +164,19 @@ struct LoginBottom {
           .height(18)
           .width(18)
 
-        TextInput({ text: this.passwrod, placeholder: '输入密码', controller: this.controller })
+        TextInput({ text: this.password, placeholder: '输入密码', controller: this.controller })
           .placeholderFont({ size: 16, weight: 400 })
           .width(180)
           .height(35)
           .backgroundColor("#f8f8f8")
-          .maxLength(12)
+          .maxLength(6)
           .showPasswordIcon(false)
           .type((InputType.Password))
           .alignRules({
             middle: { anchor: '__container__', align: HorizontalAlign.Center }
           })
           .onChange((value: string) => {
-            this.passwrod = value
+            this.password = value
           })
 
       }
@@ -202,16 +188,14 @@ struct LoginBottom {
 
       Row() {
         Row() {
-          Text($r('app.string.message_login'))
+          Text()
             .blueTextStyle()
-          // .onClick(() => {
-          //   CommonUtils.showToastContent($r('app.string.incomplete_toast'));
-          // })
           Text($r('app.string.forgot_password'))
             .blueTextStyle()
-          // .onClick(() => {
-          //   CommonUtils.showToastContent($r('app.string.incomplete_toast'));
-          // })
+            .onClick(() => {
+              CommonUtils.showToastContent($r('app.string.register'));
+              router.pushUrl({ url: "pages/RegisterPage" })
+            })
         }
         .justifyContent(FlexAlign.SpaceBetween)
         .margin({
@@ -232,7 +216,7 @@ struct LoginBottom {
           top: "12vp"
         })
         .onClick(() => {
-          this.userLogin({ username: "admin12", password: "123456" })
+          this.onLogin();
         })
 
 

@@ -33,4 +33,15 @@ export default class CommonConstants {
 
   static readonly READ_TIMEOUT:number = 5000;
   static readonly CONNECT_TIMEOUT:number = 5000;
+  static readonly LOGIN_TEXT = "login";
+  static readonly TAG_COMMON_UTILS: string = 'CommonUtils';
+
+  static readonly  PHONE_REG = /^(?:(?:\+|00)86)?1\d{10}$/;
+
+
+
+  /**
+   * 接口 URL
+   */
+  static readonly LOGIN_PATH ='/api/login'
 }

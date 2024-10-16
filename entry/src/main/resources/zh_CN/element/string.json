@@ -23,6 +23,18 @@
     {
       "name": "login",
       "value": "登 录"
+    },
+    {
+      "name": "please_input_account",
+      "value": "请输入账号"
+    },
+    {
+      "name": "please_input_password",
+      "value": "请输入密码"
+    },
+    {
+      "name": "register",
+      "value": "注册"
     }
   ]
 }

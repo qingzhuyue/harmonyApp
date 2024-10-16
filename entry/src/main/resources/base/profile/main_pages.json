@@ -3,6 +3,6 @@
     "pages/Index",
     "pages/Login",
     "pages/Second",
-    "pages/ToDoList"
+    "pages/RegisterPage"
   ]
 }

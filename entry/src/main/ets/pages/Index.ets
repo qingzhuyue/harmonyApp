@@ -1,41 +1,57 @@
-import { router } from '@kit.ArkUI';
-import { webview } from "@kit.ArkWeb"
-import { BusinessError } from '@kit.BasicServicesKit';
-import CommonConstants from "../common/constants/Contants"
-
-class routerParams {
-  src: string
-
-  constructor(str: string) {
-    this.src = str;
-  }
-}
 
 @Entry
 @Preview
 @Component
 struct Index {
-  private bgColors: Color[] =
-    [Color.Red, Color.Orange, Color.Black, Color.Yellow, Color.Green, Color.Pink, Color.Gray, Color.Blue, Color.Brown];
+  @State fontColor: string = '#182431';
+  @State currentIndex: number = 0;
+  @State selectedFontColor: string = '#007DFF';
+  private controller: TabsController = new TabsController()
+
+  onPageShow(): void {
+
+  }
+
+  onPageHide(): void {
+
+  }
+
+  onBackPress(): boolean | void {
+  }
+
+  @Builder
+  tabBuilder(index: number, name: string) {
+    Column() {
+      Text(name)
+        .fontColor(this.currentIndex === index ? this.selectedFontColor : this.fontColor)
+        .fontSize(16)
+        .fontWeight(this.currentIndex === index ? 500 : 400)
+        .lineHeight(22)
+        .margin({ top: 17, bottom: 7 })
+      Divider()
+        .strokeWidth(2)
+        .color('#007DFF')
+        .opacity(this.currentIndex === index ? 1 : 0)
+    }.width('100%')
+  }
 
   build() {
     Column() {
-      GridRow({
-        columns: 5, // 设置布局列数
-        gutter: { x: 5, y: 20 }, // 栅格布局的间距
-        breakpoints: {
-          value: ["400vp", "600vp", "800vp"],
-          reference: BreakpointsReference.WindowSize
-        },
-      }) {
-        ForEach(this.bgColors, (color:string) => {
-          GridCol({ span: { xs: 1,sm:2,md:3,lg:4 } }){
-            Row().width("100%").height("80vp")
-          }.backgroundColor(color).borderWidth(2)
-        })
+      Tabs({ index: this.currentIndex, controller: this.controller, barPosition: BarPosition.End }) {
+        TabContent() {
+          Text("申请单列表页面")
+        }.tabBar(this.tabBuilder(0,'申请单'));
+
+        TabContent() {
+          Text("个人中心页面")
+        }.tabBar(this.tabBuilder(1,'个人中心'))
       }
+      .onChange((index: number) => {
+        this.currentIndex = index;
+      })
     }
     .height('100%')
     .width('100%')
   }
 }
+
